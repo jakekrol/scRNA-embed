@@ -2,6 +2,7 @@
 import pandas as pd
 from scipy.io import mmread
 import numpy as np
+import anndata as ad
 import os, sys
 
 matrix_file = sys.argv[1]
@@ -20,10 +21,12 @@ features = pd.read_csv(features_file, header=None, sep='\t')
 # (Keep it sparse if the matrix is too large to fit into memory)
 dense_matrix = sparse_matrix.toarray()  # Optional: use `.todense()` for dense matrix
 
-# Step 4: Create a DataFrame with gene names as columns and cell barcodes as rows
-cell_by_gene_matrix = pd.DataFrame(dense_matrix.T, index=barcodes[0], columns=features[1])
+# Step 4: Create an AnnData object
+adata = ad.AnnData(X=dense_matrix.T)
+adata.obs['barcodes'] = barcodes[0].values
+adata.var['genes'] = features[1].values
 
-# Step 5: Save the matrix to a .npz file along with index and column names
-np.savez(out_file, data=cell_by_gene_matrix.values, index=cell_by_gene_matrix.index.values, columns=cell_by_gene_matrix.columns.values)
+# Step 5: Save the AnnData object to an .h5ad file
+adata.write(out_file)
 
-print(f"Cell-by-gene matrix saved to {out_file}")
+print(f"AnnData object saved to {out_file}")
