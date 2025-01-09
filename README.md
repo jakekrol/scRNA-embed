@@ -1,4 +1,4 @@
-# scRNA embed
+# scRNA-nn-search
 
 ## Updates
 
