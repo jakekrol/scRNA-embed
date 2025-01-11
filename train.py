@@ -3,8 +3,11 @@
 import scanpy as sc
 import scvi
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning import Trainer
 import sys
 import datetime
+import gc
+import torch.distributed as dist
 
 d = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -29,7 +32,6 @@ scvi.model.SCVI.setup_anndata(
     adata,
     layer="counts"
 )
-# breakpoint()
 
 # Initialize the SCVI model
 vae = scvi.model.SCVI(
@@ -43,11 +45,16 @@ vae = scvi.model.SCVI(
 logger = TensorBoardLogger(save_dir="logs", name=f"{d}-scvi_training")
 
 # Train the model
+# unfornately, distributing over multiple CPUs
+# creates strange behavior post training. I don't know how to "clean it up"
+# so I'm just training on a single CPU for now.
+# Just train on GPU locally instead.
 vae.train(
     accelerator="cpu",
-    devices=20,
-    strategy="ddp_find_unused_parameters_true",
-    max_epochs=10,                 
+    devices=1, # training
+    # strategy="ddp_find_unused_parameters_true",
+    max_epochs=1,
+    # max_epochs=10
     logger=logger,
     batch_size=128
 )
@@ -55,7 +62,6 @@ vae.train(
 
 # Save the latent space
 adata.obsm["X_scVI"] = vae.get_latent_representation()
-breakpoint()
 
 # Save the trained model
 vae.save(f'/data/jake/scrna-embed/models/{d}-scvi_model', overwrite=True)
