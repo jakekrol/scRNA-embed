@@ -2,6 +2,11 @@
 
 import scanpy as sc
 import scvi
+from pytorch_lightning.loggers import TensorBoardLogger
+import sys
+import datetime
+
+d = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
 # Load the .h5ad file
 file_path = '/data/jake/scrna-embed/data/mat.h5ad'
@@ -27,16 +32,33 @@ scvi.model.SCVI.setup_anndata(
 # breakpoint()
 
 # Initialize the SCVI model
-vae = scvi.model.SCVI(adata)
+vae = scvi.model.SCVI(
+    adata,
+    n_latent=10,
+    n_layers=2,
+    n_hidden=128,
+    dropout_rate=0.1
+)
+
+logger = TensorBoardLogger(save_dir="logs", name=f"{d}-scvi_training")
 
 # Train the model
-vae.train(accelerator="cpu", devices=10, strategy="ddp_find_unused_parameters_true")
+vae.train(
+    accelerator="cpu",
+    devices=20,
+    strategy="ddp_find_unused_parameters_true",
+    max_epochs=10,                 
+    logger=logger,
+    batch_size=128
+)
+
 
 # Save the latent space
 adata.obsm["X_scVI"] = vae.get_latent_representation()
+breakpoint()
 
 # Save the trained model
-vae.save('/data/jake/scrna-embed/models/scvi_model', overwrite=True)
+vae.save(f'/data/jake/scrna-embed/models/{d}-scvi_model', overwrite=True)
 
 # Optionally, save the AnnData object with the latent representation
-adata.write('/data/jake/scrna-embed/data/mat_with_latent.h5ad')
+adata.write('/data/jake/scrna-embed/embeddings/mat_with_latent.h5ad')
