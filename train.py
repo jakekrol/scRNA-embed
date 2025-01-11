@@ -11,6 +11,24 @@ import torch.distributed as dist
 
 d = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
+# hp
+# n_latent = 10
+# n_layers = 10
+# n_hidden = 128
+# max_epochs = 30
+# batch_size = 256
+hps = {
+    "n_latent": 100,
+    "n_layers": 2,
+    "n_hidden": 256,
+    "max_epochs": 50,
+    "batch_size": 256,
+    "preproc": True
+}
+print(hps)
+s_hps = '-'.join(map(str, hps.values()))
+print(s_hps)
+
 # Load the .h5ad file
 file_path = '/data/jake/scrna-embed/data/mat.h5ad'
 adata = sc.read_h5ad(file_path)
@@ -19,13 +37,14 @@ adata.layers["counts"] = adata.X.copy()  # preserve counts
 adata.raw = adata  # freeze the state in `.raw`
 
 # Filter and preprocess the data
-sc.pp.highly_variable_genes(
-    adata,
-    n_top_genes=1200,
-    subset=True,
-    layer="counts",
-    flavor="seurat_v3"
-)
+if hps['preproc']:
+    sc.pp.highly_variable_genes(
+        adata,
+        n_top_genes=1200,
+        subset=True,
+        layer="counts",
+        flavor="seurat_v3"
+    )
 
 # Setup AnnData for SCVI
 scvi.model.SCVI.setup_anndata(
@@ -36,13 +55,13 @@ scvi.model.SCVI.setup_anndata(
 # Initialize the SCVI model
 vae = scvi.model.SCVI(
     adata,
-    n_latent=10,
-    n_layers=2,
-    n_hidden=128,
+    n_latent=hps["n_latent"],
+    n_layers=hps["n_layers"],
+    n_hidden=hps["n_hidden"],
     dropout_rate=0.1
 )
 
-logger = TensorBoardLogger(save_dir="logs", name=f"{d}-scvi_training")
+logger = TensorBoardLogger(save_dir="logs", name=f"{s_hps}-scvi_training")
 
 # Train the model
 # unfornately, distributing over multiple CPUs
@@ -53,10 +72,11 @@ vae.train(
     accelerator="cpu",
     devices=1, # training
     # strategy="ddp_find_unused_parameters_true",
-    max_epochs=1,
-    # max_epochs=10
+    # max_epochs=5,
+    # max_epochs=50,
+    max_epochs=hps["max_epochs"],
     logger=logger,
-    batch_size=128
+    batch_size=hps["batch_size"]
 )
 
 
@@ -64,7 +84,7 @@ vae.train(
 adata.obsm["X_scVI"] = vae.get_latent_representation()
 
 # Save the trained model
-vae.save(f'/data/jake/scrna-embed/models/{d}-scvi_model', overwrite=True)
+vae.save(f'/data/jake/scrna-embed/models/{s_hps}-scvi_model', overwrite=True)
 
 # Optionally, save the AnnData object with the latent representation
-adata.write('/data/jake/scrna-embed/embeddings/mat_with_latent.h5ad')
+adata.write(f'/data/jake/scrna-embed/embeddings/{s_hps}-mat_with_latent.h5ad')
