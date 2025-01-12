@@ -23,6 +23,7 @@ X_scVI = adata.obsm['X_scVI']
 # adata.layers['counts']
 
 # do knn for subset of rows
+np.random.seed(0)
 m = 200
 sample_indices = np.random.choice(X.shape[0], size=m, replace=False)
 queries = X[sample_indices, :]

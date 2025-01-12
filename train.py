@@ -23,7 +23,8 @@ hps = {
     "n_hidden": 256,
     "max_epochs": 50,
     "batch_size": 256,
-    "preproc": True
+    "preproc": True,
+    'batch_label': True
 }
 print(hps)
 s_hps = '-'.join(map(str, hps.values()))
@@ -45,12 +46,18 @@ if hps['preproc']:
         layer="counts",
         flavor="seurat_v3"
     )
-
-# Setup AnnData for SCVI
-scvi.model.SCVI.setup_anndata(
-    adata,
-    layer="counts"
-)
+if hps['batch_label']:
+    adata.obs["batch"] = ['batch_1' for i in range(adata.shape[0])]
+    scvi.model.SCVI.setup_anndata(
+        adata,
+        layer="counts",
+        batch_key="batch"
+    )
+else:
+    scvi.model.SCVI.setup_anndata(
+        adata,
+        layer="counts"
+    )
 
 # Initialize the SCVI model
 vae = scvi.model.SCVI(
