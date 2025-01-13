@@ -18,7 +18,7 @@ d = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 # max_epochs = 30
 # batch_size = 256
 hps = {
-    "n_latent": 100,
+    "n_latent": 500,
     "n_layers": 2,
     "n_hidden": 256,
     "max_epochs": 50,
@@ -31,7 +31,8 @@ s_hps = '-'.join(map(str, hps.values()))
 print(s_hps)
 
 # Load the .h5ad file
-file_path = '/data/jake/scrna-embed/data/mat.h5ad'
+# file_path = '/data/jake/scrna-embed/data/mat.h5ad'
+file_path = 'database.h5ad'
 adata = sc.read_h5ad(file_path)
 
 adata.layers["counts"] = adata.X.copy()  # preserve counts
@@ -47,7 +48,9 @@ if hps['preproc']:
         flavor="seurat_v3"
     )
 if hps['batch_label']:
-    adata.obs["batch"] = ['batch_1' for i in range(adata.shape[0])]
+    # already have batch set in the data
+    # uncomment this if you want to set batch to a constant
+    # adata.obs["batch"] = ['batch_1' for i in range(adata.shape[0])]
     scvi.model.SCVI.setup_anndata(
         adata,
         layer="counts",
@@ -68,7 +71,8 @@ vae = scvi.model.SCVI(
     dropout_rate=0.1
 )
 
-logger = TensorBoardLogger(save_dir="logs", name=f"{s_hps}-scvi_training")
+# logger = TensorBoardLogger(save_dir="logs", name=f"{s_hps}-scvi_training")
+logger = TensorBoardLogger(save_dir="logs", name=f"database-{s_hps}-scvi_training")
 
 # Train the model
 # unfornately, distributing over multiple CPUs
@@ -91,7 +95,9 @@ vae.train(
 adata.obsm["X_scVI"] = vae.get_latent_representation()
 
 # Save the trained model
-vae.save(f'/data/jake/scrna-embed/models/{s_hps}-scvi_model', overwrite=True)
+# vae.save(f'/data/jake/scrna-embed/models/{s_hps}-scvi_model', overwrite=True)
+vae.save(f'models/database-scvi_model', overwrite=True)
 
 # Optionally, save the AnnData object with the latent representation
-adata.write(f'/data/jake/scrna-embed/embeddings/{s_hps}-mat_with_latent.h5ad')
+# adata.write(f'/data/jake/scrna-embed/embeddings/{s_hps}-mat_with_latent.h5ad')
+adata.write(f'embeddings/database-mat_with_latent.h5ad')
