@@ -17,7 +17,8 @@ Tissue search results
 - query vectors: 17370
 - db vectors: 14135
 - vector dim: 500
-- search runtime: 10 seconds
+- total search runtime: ~10 seconds
+- average search runtime: ~0.006 seconds
 ![Tissue search results](heatmap.png)
 
 Query/DB setup
