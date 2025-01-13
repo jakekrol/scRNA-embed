@@ -1,6 +1,43 @@
 # scRNA-nn-search
 
+1) Trained an scRNA (single-cell RNA) embedding model ([scVI](https://www.nature.com/articles/s41592-018-0229-2) with cells from different datasets and tissues.
+
+2) Built [FAISS](https://github.com/facebookresearch/faiss) vector database (DB) from training data.
+
+3) Ran inference on new scRNA datasets.
+
+4) Queried embeddings of new cells, unseen during training, against the cell embeddings in FAISS db.
+
+5) Evaluated search by counting tissue types of query cell and hit cell.
+
 ## Updates
+
+### 01/11/2025
+Tissue search results
+- query vectors: 17370
+- db vectors: 14135
+- vector dim: 500
+- search runtime: 10 seconds
+![Tissue search results](heatmap.png)
+
+Query/DB setup
+| Tissue  | Query                                | DB                                  |
+|---------|--------------------------------------|-------------------------------------|
+| Brain   | brain.4341_BA24_10x.h5ad            | brain.1823_BA24_10x.h5ad           |
+| Eye     | eye.GSM3745992.h5ad                 | eye.GSM3745993.h5ad                |
+| Lung    | lung.GSM3926545.h5ad                | lung.GSM3926546.h5ad               |
+| Heart   | heart.BO_H46_LV0_R2_premrna.h5ad    | heart.BO_H51_LV0_premrna.h5ad      |
+| Testes  | testes.GSM3052919.h5ad              | testes.GSM3052918.h5ad             |
+
+
+Data from DISCO
+| Tissue  | X1                       | X2                       | Platform1 | Platform2 | Cell count 1 | Cell count 2 |
+|---------|---------------------------|--------------------------|-----------|-----------|--------------|--------------|
+| Brain   | 1823_BA24_10x            | 4341_BA24_10x           | 10x3'     | 10x3'     | 981          | 3780         |
+| Heart   | BO_H46_LV0_R2_premrna    | BO_H51_LV0_premrna      | 10x3'     | 10x3'     | 5090         | 4387         |
+| Eye     | [GSM3745992](#)          | [GSM3745993](#)         | 10x3'     | 10x3'     | 2034         | 2121         |
+| Lung    | [GSM3926545](#)          | [GSM3926546](#)         | 10x3'     | 10x3'     | 2723         | 3297         |
+| Testes  | [GSM3052918](#)          | [GSM3052919](#)         | 10x3'     | 10x3'     | 3349         | 3743         |
 
 ### 01/08/2025
 
@@ -24,5 +61,5 @@ Nearest neighbor (NN) search for with PCA and JL embeddings
 | Model | Dimensions | Recall at top k=5       | KNN runtime (s=200) |
 |-------|------------|-------------------------|---------------------|
 | None  | 29898      | (Ground truth)          | 316.45             |
-| PCA   | 3537       | 0.386                   | 27.23              |
-| JL    | 3537       | 0.713                   | 28.73              |
+| PCA   | 3537       | 0.186                   | 27.23              |
+| JL    | 3537       | 0.513                   | 28.73              |
