@@ -24,5 +24,5 @@ Nearest neighbor (NN) search for with PCA and JL embeddings
 | Model | Dimensions | Recall at top k=5       | KNN runtime (s=200) |
 |-------|------------|-------------------------|---------------------|
 | None  | 29898      | (Ground truth)          | 316.45             |
-| PCA   | 3537       | 0.386                   | 27.23              |
-| JL    | 3537       | 0.713                   | 28.73              |
+| PCA   | 3537       | 0.186                   | 27.23              |
+| JL    | 3537       | 0.513                   | 28.73              |
