@@ -1,4 +1,4 @@
-.rds$
-.mtx$
-.h5ad$
+*.rds$
+*.mtx$
+*.h5ad$
 
