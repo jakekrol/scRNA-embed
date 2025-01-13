@@ -1,18 +1,18 @@
 # scRNA-nn-search
 
-1) Trained an scRNA (single-cell RNA) embedding model ([scVI](https://www.nature.com/articles/s41592-018-0229-2) with cells from different datasets and tissues.
+1) Trained an scRNA (single-cell RNA) embedding model ([scVI](https://www.nature.com/articles/s41592-018-0229-2)) with cells from different datasets and tissues.
 
 2) Built [FAISS](https://github.com/facebookresearch/faiss) vector database (DB) from training data.
 
 3) Ran inference on new scRNA datasets.
 
-4) Queried embeddings of new cells, unseen during training, against the cell embeddings in FAISS db.
+4) Queried embeddings of new cells, unseen during training, against the cell embeddings in FAISS DB.
 
 5) Evaluated search by counting tissue types of query cell and hit cell.
 
 ## Updates
 
-### 01/11/2025
+### 01/12/2025
 Tissue search results
 - query vectors: 17370
 - db vectors: 14135
