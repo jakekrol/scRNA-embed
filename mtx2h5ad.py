@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser(description="Convert .mtx file and metadata to 
 parser.add_argument("matrix", help="Path to the .mtx file")
 parser.add_argument("genes", help="Path to the genes.tsv file")
 parser.add_argument("barcodes", help="Path to the barcodes.tsv file")
+parser.add_argument("out", help="Path to output .h5ad file")
 
 # Parse the arguments
 args = parser.parse_args()
@@ -18,7 +19,7 @@ adata.var_names = [line.strip() for line in open(args.genes)]  # Gene names
 adata.obs_names = [line.strip() for line in open(args.barcodes)]  # Cell barcodes
 
 # Save to .h5ad format
-adata.write("matrix.h5ad")
+adata.write(args.out)
 
-print("Conversion complete. File saved as 'matrix.h5ad'.")
+print(f"Conversion complete. File saved as '{args.out}'.")
 

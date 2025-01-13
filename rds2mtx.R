@@ -40,12 +40,12 @@ writeMM(sparse_matrix, file = mtx_file)
 
 # Write genes file
 cat("Writing genes file...\n")
-genes_file <- paste0(output_prefix, "_genes.tsv")
+genes_file <- paste0(output_prefix, ".genes.tsv")
 write.table(genes, file = genes_file, quote = FALSE, sep = "\t", col.names = FALSE, row.names = FALSE)
 
 # Write barcodes file
 cat("Writing barcodes file...\n")
-barcodes_file <- paste0(output_prefix, "_barcodes.tsv")
+barcodes_file <- paste0(output_prefix, ".barcodes.tsv")
 write.table(barcodes, file = barcodes_file, quote = FALSE, sep = "\t", col.names = FALSE, row.names = FALSE)
 
 cat("Conversion complete.\n")
