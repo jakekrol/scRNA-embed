@@ -19,6 +19,7 @@ Tissue search results
 - vector dim: 500
 - total search runtime: ~10 seconds
 - average search runtime: ~0.006 seconds
+- $k$=1 (nearest neighbor) 
 ![Tissue search results](heatmap.png)
 
 Query/DB setup
