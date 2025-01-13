@@ -1,4 +1,4 @@
-1. conda env create -n conda-py312-scvi python=3.12.8
+1. conda create -n conda-py312-scvi python=3.12.8
 2. conda activate conda-py312-scvi
 3. conda install scvi-tools -c conda-forge
 4. pip install scanpy
