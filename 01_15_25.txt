@@ -1,0 +1,28 @@
+# Investigating tissue type disagreement for search results
+
+- results: knn_results.tsv
+
+mismatch1
+
+brain_4341_BA24_10x_AAACGGGCAAACGTGG-1  brain   eye_GSM3745993_CAGCGTGGTTAGAAGT-1       eye    
+Pyramidal neuron & Ganglion cell (neuron)
+
+mismatch2
+brain_4341_BA24_10x_AAAGATGTCCACGACG-1  brain   heart_BO_H51_LV0_premrna_CAGTTAGAGTAGAATC-1     heart   18.184792
+Vascular smooth muscle cell & Vascular smooth muscle cell
+
+mismatch3
+brain_4341_BA24_10x_AAAGATGTCCAGATCA-1  brain   lung_GSM3926546_CATCCACAGGATGCGT-1      lung    31.813992
+BGN+ EC & Arterial EC (enterochromaffin cell?)
+
+mismatch4
+testes_GSM3052919_TTGTAGGGTTCATGGT-1    testes  lung_GSM3926546_CAACCTCGTTTGCATG-1      lung    18.054688
+Macrophage & M1 macrophage
+
+mismatch5
+heart_BO_H46_LV0_R2_premrna_TTTGGAGGTGAGATTA-1  heart   lung_GSM3926546_AGAGCGACACCAGGCT-1      lung    10.268768
+T cell & CD14 monocyte (both immune cells)
+
+
+
+
