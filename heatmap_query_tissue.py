@@ -60,4 +60,4 @@ fig.update_layout(title_x=0.49)
 
 # Show and save the plot
 fig.show()
-fig.write_image('heatmap_tissue2celltype.png')
+fig.write_image('heatmap_tissues.png')
