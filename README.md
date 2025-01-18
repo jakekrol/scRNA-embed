@@ -12,6 +12,13 @@
 
 ## Updates
 
+### 01/17/2025
+- Updated tissue search results heatmap
+- Cell types of tissue mismatch between query and nearest neighbor
+
+![Cell type of tissue mismatch](heatmap_tissue_mm_celltype.png)
+![Updated tissue heatmap for queries and nearest neighbors](heatmap_tissues.png)
+
 ### 01/12/2025
 Tissue search results
 - query vectors: 17370
