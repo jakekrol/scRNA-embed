@@ -68,7 +68,7 @@ df.index = df.index.str.title()
 
 # Create the heatmap using Plotly
 fig = px.imshow(df.values, 
-                labels=dict(x="Hit Cell Type", y="Query Cell Type", color="Count"),
+                labels=dict(x="Hit Cell Type", y="Query Cell Tissue", color="Count"),
                 x=df.columns,
                 y=df.index,
                 title = 'Predicted cell types of tissue mismatch nearest neighbors',
