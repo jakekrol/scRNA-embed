@@ -1,0 +1,83 @@
+# coding: utf-8
+import pandas as pd
+f = '25_01_27-knn_results.tsv'
+d = pd.read_csv(f)
+d
+d = pd.read_csv(f,sep='\t')
+d
+d.sort_values('distance1')
+d.sort_values('distance1')
+get_ipython().run_line_magic('ls', '')
+get_ipython().run_line_magic('ls', '| grep tsv')
+f ='25_01_27-nn_cell_types.tsv'
+d = pd.read_csv(f,sep='\t')
+d
+f = '25_01_27-knn_results.tsv'
+d_r = pd.read_csv(f,sep='\t')
+d_r
+d
+i = 8183
+d
+d.iloc[i,:]
+h1='eye_GSM3745993_GTTAGTGTCTGACGCG-1'
+h2 ='testes_GSM3052918_TAGACCAGTTGTGGAG-1'
+h1
+h2
+i
+q_ct = 'lung_GSM3926545_TGAAAGACAGGTCTCG-1'
+h1_ct = h1
+h2_ct = h2
+q
+q = sc.read_h5ad('queries.h5ad')
+import scanpy as sc
+q = sc.read_h5ad('queries.h5ad')
+d = sc.read_h5ad('database.h5ad')
+q
+d
+v_q = q[q.obs_names == q_ct]
+v_q
+v_q.X.toarray()
+v_h1 = d[d.obs_names == h1_ct].X.toarray()
+v_h1
+v_h2 = d[d.obs_names == h2_ct].X.toarray()
+import seaborn as sns
+import matplotlib.pyplot as plt
+p_data = np.vstack([v_q,v_h1,v_h2])
+import numpy as np
+p_data = np.vstack([v_q,v_h1,v_h2])
+v_q
+v_q = v_q.X.toarray()
+p_data = np.vstack([v_q,v_h1,v_h2])
+p_data
+plt.figure(figsize=(10,10))
+sns.heatmap(p_data,cmap='viridis')
+plt.show()
+import plotly.express as px
+data = p_data
+fig = px.imshow(data,
+                labels=dict(x="Index", y="Vectors", color="Value"),
+                x=list(range(data.shape[1])),
+                y=["Vector 1", "Vector 2", "Vector 3"],
+                color_continuous_scale='Viridis')
+
+# Update layout to ensure all tick labels are shown
+fig.update_layout(
+    title="Heatmap of Vectors",
+    xaxis_title="Index",
+    yaxis_title="Vectors"
+)
+
+# Show the plot
+fig.show()
+max(v_q)
+v_q
+np.max(v_q)
+np.max(v_h1)
+np.max(v_h2)
+data
+df = pd.DataFrame(data)
+df
+df.T
+df.index = [q_ct, h1_ct, h2_ct]
+df
+df.to_csv('25_01_29-vectors_close_diff_ct',sep='\t')

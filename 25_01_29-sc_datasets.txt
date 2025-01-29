@@ -1,0 +1,47 @@
+# scRNA-seq and sc multi omics databases
+
+Info collected on 01/29/25
+
+## scRNA-seq
+
+- [EBI expression atlas](https://www.ebi.ac.uk/gxa/sc/home)
+    - 21 species
+    - 381 studies
+    - 13,519,191 cells
+- [Human cell atlas](https://www.humancellatlas.org/)
+    - 63.5 million cells
+    - 9.3k donors
+    - 484 projects
+- [Cell by gene](https://cellxgene.cziscience.com/)
+    - 106.4M unique cells
+    - 1724 datasets
+    - 974 cell types
+- [DISCO](https://www.immunesinglecell.org/)
+    - 121,850,370 cells
+    - 19,747 samples
+    - 461 cell types
+    - 39 atlases
+
+- [Single cell atlas](https://www.singlecellatlas.org/)
+    - 3,881,472 cells
+
+## sc multiomics
+
+- [scMultiome](https://bioconductor.org/packages/release/data/experiment/html/scMultiome.html) (Bioconductor package)
+
+- [SmartDB](https://smart-db.cn/home)
+    - 2,002,566 cells
+    - 76 multiomics datasets
+    - 125 time points
+- [OMicsDI](https://www.omicsdi.org/)
+    - 4.1k multiomics datasets
+
+- [Single cell atlas](https://www.singlecellatlas.org/)
+    - 125 multiomics datasets
+    
+- [scCancerExplorer](https://bianlab.cn/scCancerExplorer/home)
+    - 6.2M cells
+    - 50 cancer types
+
+- [scMMO](https://www.biosino.org/scMMO-atlas/)
+    - 3,168,824 cells
